@@ -1,0 +1,89 @@
+#!/usr/bin/python
+
+import random
+import os
+from expression_split import *
+from cigar_generation import *
+from mir_location import *
+from sequence_alteration import *
+
+def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, no_mir_chr_Y, depth, seq_error, out, out_file,write_mode,repeat,distribution,seed):
+    
+    random.seed(seed)
+    if write_mode == 'write':
+        rna_ground_truth = open(os.path.join(out,out_file),'w')
+        header = 'RNA_ID\tImpure_Region\tCigar_String\tref_Sequence\tsynthetic_sequence\tchr\tchr_start\tchr_end\tExpression_count\n'
+        rna_ground_truth.write(header)
+    elif write_mode == 'append':
+        rna_ground_truth = open(os.path.join(out,out_file),'a')
+    
+    chr_no = 1
+    chr_list = ['chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8',
+               'chr9', 'chr10', 'chr11', 'chr12', 'chr13', 'chr14', 'chr15', 'chr16',
+               'chr17', 'chr18', 'chr19', 'chr20', 'chr21', 'chr22', 'chrX', 'chrY']
+    for i in range(len(chr_list)):
+        chr_name = chr_list[i] + '$'
+        mir_complete_list = list(gff_df[gff_df['chr'].str.contains(chr_name)].index)   
+        if mir_complete_list:
+            if not 'chrY' in chr_name:
+                total_exp = no_mir_chr * depth
+                if not no_mir_chr > len(mir_complete_list):                    
+                    mir_list = random.sample(mir_complete_list,int(no_mir_chr))
+                else:                
+                    if repeat:
+                        complete_flag = True
+                        while complete_flag == True:
+                            mir_complete_list += mir_complete_list
+                            if no_mir_chr < len(mir_complete_list):
+                                complete_flag = False
+                        mir_list = random.sample(mir_complete_list,int(no_mir_chr))
+                    else:
+                        mir_list = random.sample(mir_complete_list,len(mir_complete_list))
+            else:
+                total_exp = no_mir_chr_Y * depth
+                if not no_mir_chr_Y > len(mir_complete_list):                
+                    mir_list = random.sample(mir_complete_list,int(no_mir_chr_Y))
+                else:
+                    if repeat:                    
+                        complete_flag = True
+                        while complete_flag == True:
+                            mir_complete_list += mir_complete_list
+                            if no_mir_chr_Y < len(mir_complete_list):
+                                complete_flag = False
+                        mir_list = random.sample(mir_complete_list,int(no_mir_chr_Y))
+                    else:
+                        mir_list = random.sample(mir_complete_list,len(mir_complete_list))
+                        
+            complete_flag = True
+            while complete_flag:
+                expression_counts = expression_split(total_exp,len(mir_list),distribution,seed,depth)
+                if expression_counts:
+                    complete_flag = False
+
+            mir_list = mir_list[:len(expression_counts)]     
+            for mir,exp in zip(mir_list,expression_counts):
+                if seq_error == 'None':
+                    mir_seq_new = rna_dict[mir]
+                    mir_cigar = cigar_generation(rna_dict[mir],mir_seq_new)
+                elif seq_error == 'Seed_region':
+                    mir_seq_new = sequence_alteration(rna_dict[mir],'seed',seed)
+                    mir_cigar = cigar_generation(rna_dict[mir],mir_seq_new)
+                elif seq_error == 'Outside_Seed_region':
+                    mir_seq_new = sequence_alteration(rna_dict[mir],'xseed',seed)
+                    mir_cigar = cigar_generation(rna_dict[mir],mir_seq_new)
+                elif seq_error == 'Both_region':
+                    mir_seq_new = sequence_alteration(rna_dict[mir],'both',seed)
+                    mir_cigar = cigar_generation(rna_dict[mir],mir_seq_new)
+
+                loc = mir_location(gff_df,mir,seed)
+                mir_depth = exp
+                line = ''
+                line += mir + '\t' + seq_error + '\t' + mir_cigar + '\t' + rna_dict[mir] + '\t' + mir_seq_new + '\t' + loc[0] + '\t' + str(loc[1]) + '\t' + str(loc[2]) + '\t' + str(mir_depth) + '\n'
+                rna_ground_truth.write(line)            
+                for dep in range(mir_depth):
+                    fasta_seq.append('>' + mir)
+                    fasta_seq.append(mir_seq_new)
+                    
+        else:
+            print('There are not miRNAs in %s in provided GFF file.' %(chr_name))     
+    return fasta_seq

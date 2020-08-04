@@ -7,7 +7,7 @@ from cigar_generation import *
 from mir_location import *
 from sequence_alteration import *
 
-def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, no_mir_chr_Y, depth, seq_error, out, out_file,write_mode,repeat,distribution,seed):
+def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, depth, seq_error, out, out_file,write_mode,repeat,distribution,seed):
     
     random.seed(seed)
     if write_mode == 'write':
@@ -25,44 +25,29 @@ def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, no_mir_chr_Y, dep
         chr_name = chr_list[i] + '$'
         mir_complete_list = list(gff_df[gff_df['chr'].str.contains(chr_name)].index)   
         if mir_complete_list:
-            if not 'chrY' in chr_name:
-                total_exp = no_mir_chr * depth
-                if not no_mir_chr > len(mir_complete_list):                    
-                    mir_list = random.sample(mir_complete_list,int(no_mir_chr))
-                else:                
-                    if repeat:
-                        complete_flag = True
-                        while complete_flag == True:
-                            mir_complete_list += mir_complete_list
-                            if no_mir_chr < len(mir_complete_list):
-                                complete_flag = False
-                        mir_list = random.sample(mir_complete_list,int(no_mir_chr))
-                    else:
-                        mir_list = random.sample(mir_complete_list,len(mir_complete_list))
-            else:
-                total_exp = no_mir_chr_Y * depth
-                if not no_mir_chr_Y > len(mir_complete_list):                
-                    mir_list = random.sample(mir_complete_list,int(no_mir_chr_Y))
+            total_exp = no_mir_chr[i] * depth
+            if not no_mir_chr[i] > len(mir_complete_list):                    
+                mir_list = random.sample(mir_complete_list,int(no_mir_chr[i]))
+            else:                
+                if repeat:
+                    complete_flag = True
+                    while complete_flag == True:
+                        mir_complete_list += mir_complete_list
+                        if no_mir_chr[i] < len(mir_complete_list):
+                            complete_flag = False
+                    mir_list = random.sample(mir_complete_list,int(no_mir_chr[i]))
                 else:
-                    if repeat:                    
-                        complete_flag = True
-                        while complete_flag == True:
-                            mir_complete_list += mir_complete_list
-                            if no_mir_chr_Y < len(mir_complete_list):
-                                complete_flag = False
-                        mir_list = random.sample(mir_complete_list,int(no_mir_chr_Y))
-                    else:
-                        mir_list = random.sample(mir_complete_list,len(mir_complete_list))
-                        
+                    mir_list = random.sample(mir_complete_list,len(mir_complete_list))
+            
             complete_flag = True
-            print('mir_list',len(mir_list),chr_name,total_exp,seq_error)
+            print('mir_list',len(mir_list),chr_name,total_exp)
             while complete_flag:
                 try:
                     expression_counts = expression_split(total_exp,len(mir_list),distribution,seed,depth)
                     if expression_counts:
                         complete_flag = False
                 except:
-                    print('The number of RNAs and total available depth in %s  is %d and %d too less' %(chr_name,len(mir_list),total_exp))
+#                     print('The number of RNAs and total available depth in %s  is %d and %d too less' %(chr_name,len(mir_list),total_exp))
                     expression_counts = expression_split(total_exp,len(mir_list),distribution,seed,int(depth*0.5))
                     if expression_counts:
                         complete_flag = False

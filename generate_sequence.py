@@ -55,10 +55,17 @@ def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, no_mir_chr_Y, dep
                         mir_list = random.sample(mir_complete_list,len(mir_complete_list))
                         
             complete_flag = True
+            print('mir_list',len(mir_list),chr_name,total_exp,seq_error)
             while complete_flag:
-                expression_counts = expression_split(total_exp,len(mir_list),distribution,seed,depth)
-                if expression_counts:
-                    complete_flag = False
+                try:
+                    expression_counts = expression_split(total_exp,len(mir_list),distribution,seed,depth)
+                    if expression_counts:
+                        complete_flag = False
+                except:
+                    print('The number of RNAs and total available depth in %s  is %d and %d too less' %(chr_name,len(mir_list),total_exp))
+                    expression_counts = expression_split(total_exp,len(mir_list),distribution,seed,int(depth*0.5))
+                    if expression_counts:
+                        complete_flag = False
 
             mir_list = mir_list[:len(expression_counts)]     
             for mir,exp in zip(mir_list,expression_counts):

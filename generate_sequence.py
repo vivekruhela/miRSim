@@ -7,7 +7,7 @@ from cigar_generation import *
 from mir_location import *
 from sequence_alteration import *
 
-def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, depth, seq_error, out, out_file,write_mode,repeat,distribution,seed):
+def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, n_seq_per_chr, depth, seq_error, out, out_file,write_mode,repeat,distribution,seed):
     
     random.seed(seed)
     if write_mode == 'write':
@@ -25,7 +25,7 @@ def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, depth, seq_error,
         chr_name = chr_list[i] + '$'
         mir_complete_list = list(gff_df[gff_df['chr'].str.contains(chr_name)].index)   
         if mir_complete_list:
-            total_exp = no_mir_chr[i] * depth
+            total_exp = n_seq_per_chr[i]
             if not no_mir_chr[i] > len(mir_complete_list):                    
                 mir_list = random.sample(mir_complete_list,int(no_mir_chr[i]))
             else:                
@@ -40,19 +40,17 @@ def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, depth, seq_error,
                     mir_list = random.sample(mir_complete_list,len(mir_complete_list))
             
             complete_flag = True
-            print('mir_list',len(mir_list),chr_name,total_exp)
             while complete_flag:
                 try:
                     expression_counts = expression_split(total_exp,len(mir_list),distribution,seed,depth)
                     if expression_counts:
                         complete_flag = False
                 except:
-#                     print('The number of RNAs and total available depth in %s  is %d and %d too less' %(chr_name,len(mir_list),total_exp))
+                    print('The number of RNAs and total available depth in %s  is %d and %d too less' %(chr_name,len(mir_list),total_exp))
                     expression_counts = expression_split(total_exp,len(mir_list),distribution,seed,int(depth*0.5))
                     if expression_counts:
                         complete_flag = False
 
-            mir_list = mir_list[:len(expression_counts)]     
             for mir,exp in zip(mir_list,expression_counts):
                 if seq_error == 'None':
                     mir_seq_new = rna_dict[mir]
@@ -68,7 +66,7 @@ def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, depth, seq_error,
                     mir_cigar = cigar_generation(rna_dict[mir],mir_seq_new)
 
                 loc = mir_location(gff_df,mir,seed)
-                mir_depth = exp
+                mir_depth = int(exp)
                 line = ''
                 line += mir + '\t' + seq_error + '\t' + mir_cigar + '\t' + rna_dict[mir] + '\t' + mir_seq_new + '\t' + loc[0] + '\t' + str(loc[1]) + '\t' + str(loc[2]) + '\t' + str(mir_depth) + '\n'
                 rna_ground_truth.write(line)            

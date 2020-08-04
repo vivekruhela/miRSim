@@ -12,7 +12,7 @@ def expression_split(number, number_of_subsections, distribution, seed, min_rand
     max_random_number = int(number/number_of_subsections)
     if min_random_number_desired < number:
         if min_random_number_desired > max_random_number:
-            print("WARNING: Cannot have min number as {} and split {} in {} subsections".format(min_random_number_desired, number, number_of_subsections))
+#             print("WARNING: Cannot have min number as {} and split {} in {} subsections".format(min_random_number_desired, number, number_of_subsections))
             number_of_subsections = int(np.floor(number/min_random_number_desired))
             return expression_split(number,number_of_subsections,distribution, seed, min_random_number_desired)
                     

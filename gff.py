@@ -5,7 +5,7 @@ import pandas as pd
 def gff(gff_file,rna_type):
     gff_file = open(gff_file).read().split('\n')
     df = pd.DataFrame()
-    if rna_type == 'mirna':
+    if rna_type == 'miRNA':
         gff_file = gff_file[13:-1]
         chr_loc = [c.split('\t')[0] for c in gff_file]
         mirna_type = [c.split('\t')[2] for c in gff_file]

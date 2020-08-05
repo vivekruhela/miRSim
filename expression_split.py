@@ -4,8 +4,10 @@ from scipy.stats import gamma
 from scipy.stats import uniform
 from scipy.stats import expon
 from scipy.stats import poisson
+import numpy as np
+import sys
 
-def expression_split(number, number_of_subsections, distribution, seed, min_random_number_desired = 2):
+def expression_split(number, number_of_subsections, distribution, seed, min_random_number_desired):
     split_number_list = []
     cumulative_sum_of_random_numbers = 0
     current_subsection = 1
@@ -35,9 +37,8 @@ def expression_split(number, number_of_subsections, distribution, seed, min_rand
         split_num1[-1] = number-sum(split_num1[:-1])
         if sum([1 for v in split_num1 if v<=0]) >= 1:
             return expression_split(number,int(number_of_subsections*0.75),distribution, seed, min_random_number_desired)
-#             print('ERROR: Please lower the minimum Depth.')
-#             sys.exit(1)
         return split_num1
     else:
         print('ERROR : minimum depth is greater than provided number and can not be splitted.')
         sys.exit(1)
+

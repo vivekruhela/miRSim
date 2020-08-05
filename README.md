@@ -149,9 +149,10 @@ After generating synthetic data for each individual RNA, merge these fastq files
 zcat mirna_raw_data.fastq.gz pirna_raw_data.fastq.gz snorna_raw_data.fastq.gz > synthetic_raw_data.fastq.gz
 ```
 
-## Caveat
+## Reference
 
-We have assumed that RNAs are present in  all the chromosomes. If there is no RNA present in the provided GFF file, no sequence will be generated for that chromosome and there will be a warning message for no RNA present in that chromosome and number of sequence generated will be lesser than provided total number of sequences.
+Ruhela, Vivek et al., "MiRPipe: A Docker for RNA-Seq Bioinformatics Analysis"
+
 ## Authors
 
 * **Vivek Ruhela** - *Initial work* - [github](https://github.com/vivekruhela)
@@ -159,4 +160,8 @@ We have assumed that RNAs are present in  all the chromosomes. If there is no RN
 
 ## License
 
-This project is licensed under the MIT License.
+See the [LICENSE](LICENSE) file for license rights and limitations (Apache2.0).
+
+## Acknowledgement
+
+This work was supported by Infosys Centre for AI, IIIT Delhi.

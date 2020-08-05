@@ -17,11 +17,10 @@ def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, n_seq_per_chr, de
     elif write_mode == 'append':
         rna_ground_truth = open(os.path.join(out,out_file),'a')
     
-#     chr_no = 1
-#     chr_list = list(gff_df['chr'].unique())
-    chr_list = ['chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8',
-               'chr9', 'chr10', 'chr11', 'chr12', 'chr13', 'chr14', 'chr15', 'chr16',
-               'chr17', 'chr18', 'chr19', 'chr20', 'chr21', 'chr22', 'chrX', 'chrY']
+    chr_list = list(gff_df['chr'].unique())
+#     chr_list = ['chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr6', 'chr7', 'chr8',
+#                'chr9', 'chr10', 'chr11', 'chr12', 'chr13', 'chr14', 'chr15', 'chr16',
+#                'chr17', 'chr18', 'chr19', 'chr20', 'chr21', 'chr22', 'chrX', 'chrY']
     for i in range(len(chr_list)):
         chr_name = chr_list[i] + '$'
         mir_complete_list = list(gff_df[gff_df['chr'].str.contains(chr_name)].index)   
@@ -74,7 +73,5 @@ def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, n_seq_per_chr, de
                 for dep in range(mir_depth):
                     fasta_seq.append('>' + mir)
                     fasta_seq.append(mir_seq_new)
-                    
-        else:
-            print('There are not miRNAs in %s in provided GFF file.' %(chr_name))     
+
     return fasta_seq

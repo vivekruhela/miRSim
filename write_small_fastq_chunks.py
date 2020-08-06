@@ -3,7 +3,7 @@
 import random
 
 def write_small_fastq_chunks(fasta_seq_chunk,out_file,counter,out_file_type,quality_char,adaptor,seed):
-#     counter = 1
+
     for line in fasta_seq_chunk:
         line1 = ""
         line_no = fasta_seq_chunk.index(line)
@@ -31,8 +31,8 @@ def write_small_fastq_chunks(fasta_seq_chunk,out_file,counter,out_file_type,qual
                 out_file.write(line1)
                 counter += 1
             elif out_file_type == 'fasta':
-                line1 += line + '-' + str(i) + '\n'
-                line1 += fasta_seq_chunk[line_no+1] + adaptor + '\n' # "TGGAATTCTCGGGTGCCAAGG" + '\n'
+                line1 += line + '-' + str(counter) + '\n'
+                line1 += fasta_seq_chunk[line_no+1] + adaptor + '\n'
                 out_file.write(line1)
                 counter += 1
 

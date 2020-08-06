@@ -14,6 +14,8 @@ def write_fastq(fasta_seq, adaptor, ascii_base, out, out_file_name,out_file_type
         quality_char = ['5', '6', '7', '8', '9', ':', ';', '<', '=', '>', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']
     elif ascii_base == 64:
         quality_char = ['T','U','V','W','X','Y','Z', '^',' ', '-', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    else:
+        quality_char = []
     
     max_no_line = len(fasta_seq)
     no_of_splitted_file = parallel_thread

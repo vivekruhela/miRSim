@@ -27,7 +27,9 @@ def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, n_seq_per_chr, de
         if mir_complete_list:
             total_exp = n_seq_per_chr[i]
             if not no_mir_chr[i] > len(mir_complete_list):                    
-                mir_list = random.sample(mir_complete_list,int(no_mir_chr[i]))
+                mir_idx = [random.randint(0,len(mir_complete_list)-1) for v in range(int(no_mir_chr[i]))]
+                mir_list = [mir_complete_list[v] for v in mir_idx]
+#                 mir_list = random.sample(mir_complete_list,int(no_mir_chr[i]))
             else:                
                 if repeat:
                     complete_flag = True
@@ -35,9 +37,13 @@ def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, n_seq_per_chr, de
                         mir_complete_list += mir_complete_list
                         if no_mir_chr[i] < len(mir_complete_list):
                             complete_flag = False
-                    mir_list = random.sample(mir_complete_list,int(no_mir_chr[i]))
-                else:
-                    mir_list = random.sample(mir_complete_list,len(mir_complete_list))
+                    mir_idx = [random.randint(0,len(mir_complete_list)-1) for v in range(int(no_mir_chr[i]))]
+                    mir_list = [mir_complete_list[v] for v in mir_idx]
+#                     mir_list = random.sample(mir_complete_list,int(no_mir_chr[i]))
+                else:                    
+                    mir_idx = [random.randint(0,len(mir_complete_list)-1) for v in range(int(mir_complete_list))]
+                    mir_list = [mir_complete_list[v] for v in mir_idx]
+#                     mir_list = random.sample(mir_complete_list,len(mir_complete_list))
             
             complete_flag = True
             while complete_flag:

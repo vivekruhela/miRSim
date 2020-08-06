@@ -17,8 +17,8 @@ parser.add_argument("-s","--seed_error_seq",help="Fraction of sequence having im
 parser.add_argument("-x","--xseed_error_seq",help="Fraction of sequence having impurity in xseed region (extra region outside seed region) out of total generated sequence.",default=10,type=int)
 parser.add_argument("-b","--both_seed_xseed_error_seq",help="Fraction of sequence having impurity in both seed and xseed region outo of total generated sequence.",default=10,type=int)
 parser.add_argument("-d","--min_depth",help="Minimum depth of sequence to be generated.", default=10,type=int)
-parser.add_argument("-e","--encoding_quality",help="Quality score encoding for fastq file (requires -q).", default=33,type=int)
-parser.add_argument("-se","--seed",help="Seed (random/fixed-prided by user).")
+parser.add_argument("-e","--encoding_quality",help="Quality score encoding for fastq file (33/64 for fastq, 0 for fasta).", default=33,type=int)
+parser.add_argument("-se","--seed",help="Seed (random/fixed-prided by user).",type=int)
 parser.add_argument("-o","--out_path",help="Path of saving output (fastq/fasta) file.")
 parser.add_argument("-n","--out_file_name",help="Name of output sequence file (fastq/fasta).")
 parser.add_argument("-g","--ground_truth_file",help="Name of output ground truth file.")
@@ -42,8 +42,9 @@ print('#########################################################################
 
 if args.encoding_quality:
     if args.out_file_type == 'fasta':
-        print('ERROR : With quality encoding file type must be fastq')
-        sys.exit(1)
+        if not args.encoding_quality == 0:
+            print('ERROR : To generate fasta file, the parameter -e should be equal to 0.')
+            sys.exit(1)
 if not args.input:
     print('Please provide referencce sequence file')
     sys.exit(1)

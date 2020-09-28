@@ -32,7 +32,10 @@ def write_small_fastq_chunks(fasta_seq_chunk,out_file,counter,out_file_type,qual
                 counter += 1
             elif out_file_type == 'fasta':
                 line1 += line + '-' + str(counter) + '\n'
-                line1 += fasta_seq_chunk[line_no+1] + adaptor + '\n'
+                try:
+                    line1 += fasta_seq_chunk[line_no+1] + adaptor + '\n'
+                except:
+                    line1 += fasta_seq_chunk[line_no] + adaptor + '\n'
                 out_file.write(line1)
                 counter += 1
 

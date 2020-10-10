@@ -41,7 +41,6 @@ def expression_split(number, number_of_subsections, distribution, seed, min_rand
             return expression_split(number,int(number_of_subsections*0.75),distribution, seed, min_random_number_desired)
         return split_num1
     else:
-        print('WARNING : minimum depth is greater than provided number and can not be splitted.')
-        expression_split(number,number_of_subsections,distribution, seed, min_random_number_desired*0.9)
-#         sys.exit(1)
+#         print('WARNING : minimum depth is greater than provided number and can not be splitted.')
+        expression_split(number,1,distribution, seed, number)
 

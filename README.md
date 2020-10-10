@@ -1,6 +1,6 @@
-# XseedSim
+# miRSim
 
-![XseedSim Synthetic Sequence Simulator](synthetic_reads.png)
+![miRSim Synthetic Sequence Simulator](synthetic_reads.png)
 
 This aim of this tool is to generate the synthetic RNA-Seq sequences by mutating the seed and xseed region (extra sequence after removing seed) by following poisson or gamma error distribution. In addition to the synthetic sequences, this tool also generate the ground truth. This tool can be used to evalute the ability of the tool/pipeline to correctly identify the RNA sequences.
 
@@ -8,7 +8,7 @@ This aim of this tool is to generate the synthetic RNA-Seq sequences by mutating
 
 ### Prerequisites
 
-This tool has been developed in Python (version 3.6.9). The following libraries are required to run XseedSim sequence generation module:
+This tool has been developed in Python (version 3.6.9). The following libraries are required to run miRSim sequence generation module:
 
 ```
 -----------------------------------------------------
@@ -27,14 +27,14 @@ Rest of the requires packages such as `random,os,sys,gzip,time` are already incl
 You can download this tool by cloning the github repository and use directly by switching to the tool directory.
 
 ```
-git clone vivekruhela/XseedSim
-cd XseedSim
+git clone vivekruhela/miRSim
+cd miRSim
 ```
 
 ## Arguments
 
 ```
-usage: xseedsim.py [-h] [-i INPUT] [-t [TOTAL_SEQ]] [-p PURE_SEQ]
+usage: miRSim.py [-h] [-i INPUT] [-t [TOTAL_SEQ]] [-p PURE_SEQ]
                    [-s SEED_ERROR_SEQ] [-x XSEED_ERROR_SEQ]
                    [-b BOTH_SEED_XSEED_ERROR_SEQ] [-d MIN_DEPTH]
                    [-e ENCODING_QUALITY] [-se SEED] [-o OUT_PATH]
@@ -49,7 +49,7 @@ optional arguments:
                         Reference fasta file input. (default: None)
   -t [TOTAL_SEQ], --total_seq [TOTAL_SEQ]
                         Total number of sequence to be generated. (default:
-                        10000)
+                        50000)
   -p PURE_SEQ, --pure_seq PURE_SEQ
                         Fraction of pure sequence out of total generated
                         sequence. (default: 60)
@@ -103,10 +103,10 @@ optional arguments:
 (A) If you want to prepare the synthetic data that contains miRNA only (with default settings)
 
 ```
-python xseedsim.py -i hsa_mature.fa -n mirna_raw_data.fastq.gz -g mirna_ground_truth.csv -gff hsa.gff3
+python miRSim.py -i Sample_data/mature_high_conf_miRNA_hsa.fa -n mirna_raw_data.fastq.gz -g mirna_ground_truth.csv -gff Sample_data/hsa_miRNA_high_conf.gff3
 ```
 
-(B) If you want to prepare the synthetic data that contains multiple type of RNAs (let's say mIRNA + piRNA + snoRNA) with following proportion:
+(B) If you want to prepare the synthetic data that contains multiple type of RNAs (let's say mIRNA + piRNA + novel miRNA) with following proportion:
 
 ```
 Total Number of sequence = 100000
@@ -118,35 +118,35 @@ Total Number of sequence = 100000
 % of piRNA sequence with error in seed region                 = 10% (i.e. 10000 sequences)
 % of piRNA sequence with error in xseed region                = 5% (i.e. 5000 sequences)
 % of piRNA sequence with error in both seed and xseed region  = 5% (i.e. 5000 sequences)
-% of pure snoRNA                                              = 10% (i.e. 10000 sequences)
-% of snoRNA sequence with error in seed region                = 10% (i.e. 10000 sequences)
-% of snoRNA sequence with error in xseed region               = 5% (i.e. 5000 sequences)
-% of snoRNA sequence with error in both seed and xseed region = 0% (i.e. 0 sequences)
+% of pure novel miRNA                                              = 10% (i.e. 10000 sequences)
+% of novel miRNA sequence with error in seed region                = 10% (i.e. 10000 sequences)
+% of novel miRNA sequence with error in xseed region               = 5% (i.e. 5000 sequences)
+% of novel miRNA sequence with error in both seed and xseed region = 0% (i.e. 0 sequences)
                                                         Total = 100%
 ```
 
-In order to generate such data you need to call XseedSim module separately for each RNA type using following commands `(assuming minimum dapth=default, file_type=fastq, encoding_quality=33, adaptor=default)`:
+In order to generate such data you need to call miRSim module separately for each RNA type using following commands `(assuming minimum dapth=default, file_type=fastq, encoding_quality=33, adaptor=default)`:
 
 ```
 For miRNA synthetic data
 
-python xseedsim.py -i hsa_mature.fa -n mirna_raw_data.fastq.gz -g mirna_ground_truth.csv -gff hsa.gff3 -t 100000 -p 20 -s 10 -x 10 -b 5 -se 1001 -th 6 -rna_type miRNA
+python miRSim.py -i Sample_data/mature_high_conf_miRNA_hsa.fa -n mirna_raw_data.fastq.gz -g mirna_ground_truth.csv -gff Sample_data/hsa_miRNA_high_conf.gff3 -t 100000 -p 20 -s 10 -x 10 -b 5 -se 1001 -th 6 -rna_type miRNA
 ```
 
 ```
 For piRNA synthetic data
 
-python xseedsim.py -i piRNA_reference.fa -n pirna_raw_data.fastq.gz -g pirna_ground_truth.csv -gff piRNA_hsa.gff3 -t 100000 -p 10 -s 10 -x 5 -b 5 -se 1001 -th 6 -rna_type piRNA
+python miRSim.py -i Sample_data/piRNAdb.hsa.v1_7_5.fa -n pirna_raw_data.fastq.gz -g pirna_ground_truth.csv -gff Sample_data/pirnadb_hg38.gff3 -t 100000 -p 10 -s 10 -x 5 -b 5 -se 1001 -th 6 -rna_type piRNA
 ```
 
 ```
-For snoRNA synthetic data
+For novel miRNA synthetic data
 
-python xseedsim.py -i snoRNA_reference.fa -n snorna_raw_data.fastq.gz -g snorna_ground_truth.csv -gff snoRNA_hsa.gff3 -t 100000 -p 10 -s 10 -x 5 -b 0 -se 1001 -th 6 -rna_type snoRNA
+python miRSim.py -i Sample_data/novel_seq.fa -n novel_mirna_raw_data.fastq.gz -g novel_mirna_ground_truth.csv -gff novel_miRNA.gff3 -t 100000 -p 10 -s 10 -x 5 -b 0 -se 1001 -th 6 -rna_type novelRNA
 ```
 After generating synthetic data for each individual RNA, merge these fastq files and their ground truth csv. e.g.
 ```
-zcat mirna_raw_data.fastq.gz pirna_raw_data.fastq.gz snorna_raw_data.fastq.gz > synthetic_raw_data.fastq.gz
+zcat mirna_raw_data.fastq.gz pirna_raw_data.fastq.gz novel_mirna_raw_data.fastq.gz > synthetic_raw_data.fastq.gz
 ```
 
 ## Reference

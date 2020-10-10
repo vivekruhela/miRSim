@@ -90,7 +90,7 @@ optional arguments:
   -a [ADAPTOR], --adaptor [ADAPTOR]
                         Adaptor Sequence. (default: TGGAATTCTCGGGTGCCAAGG)
   -th [THREAD], --thread [THREAD]
-                        Number of Parallel thread. (default: 2)
+                        Number of Parallel thread. (default: 4)
   -r [REPLACEMENT], --replacement [REPLACEMENT]
                         Sample RNAs with replacement (default: True)
   -rna [RNA_TYPE], --rna_type [RNA_TYPE]
@@ -109,7 +109,7 @@ python miRSim.py -i Sample_data/mature_high_conf_miRNA_hsa.fa -n mirna_raw_data.
 (B) If you want to prepare the synthetic data that contains multiple type of RNAs (let's say mIRNA + piRNA + novel miRNA) with following proportion:
 
 ```
-Total Number of sequence = 100000
+Total Number of sequence = 500000
 % of pure miRNA sequence                                      = 20% (i.e. 20000 sequences)
 % of miRNA sequence with error in seed region                 = 10% (i.e. 10000 sequences)
 % of miRNA sequence with error in xseed region                = 10% (i.e. 10000 sequences)
@@ -130,19 +130,19 @@ In order to generate such data you need to call miRSim module separately for eac
 ```
 For miRNA synthetic data
 
-python miRSim.py -i Sample_data/mature_high_conf_miRNA_hsa.fa -n mirna_raw_data.fastq.gz -g mirna_ground_truth.csv -gff Sample_data/hsa_miRNA_high_conf.gff3 -t 100000 -p 20 -s 10 -x 10 -b 5 -se 1001 -th 6 -rna_type miRNA
+python miRSim.py -i Sample_data/mature_high_conf_miRNA_hsa.fa -n mirna_raw_data.fastq.gz -g mirna_ground_truth.csv -gff Sample_data/hsa_miRNA_high_conf.gff3 -p 20 -s 10 -x 10 -b 5 -se 1001 -th 6 -rna miRNA
 ```
 
 ```
 For piRNA synthetic data
 
-python miRSim.py -i Sample_data/piRNAdb.hsa.v1_7_5.fa -n pirna_raw_data.fastq.gz -g pirna_ground_truth.csv -gff Sample_data/pirnadb_hg38.gff3 -t 100000 -p 10 -s 10 -x 5 -b 5 -se 1001 -th 6 -rna_type piRNA
+python miRSim.py -i Sample_data/piRNAdb.hsa.v1_7_5.fa -n pirna_raw_data.fastq.gz -g pirna_ground_truth.csv -gff Sample_data/pirnadb_hg38.gff3 -p 10 -s 10 -x 5 -b 5 -se 1001 -th 6 -rna piRNA
 ```
 
 ```
 For novel miRNA synthetic data
 
-python miRSim.py -i Sample_data/novel_seq.fa -n novel_mirna_raw_data.fastq.gz -g novel_mirna_ground_truth.csv -gff novel_miRNA.gff3 -t 100000 -p 10 -s 10 -x 5 -b 0 -se 1001 -th 6 -rna_type novelRNA
+python miRSim.py -i Sample_data/novel_seq.fa -n novel_mirna_raw_data.fastq.gz -g novel_mirna_ground_truth.csv -gff Sample_data/novel_miRNA.gff3 -p 10 -s 10 -x 5 -b 0 -se 1001 -th 6 -rna novelRNA
 ```
 After generating synthetic data for each individual RNA, merge these fastq files and their ground truth csv. e.g.
 ```

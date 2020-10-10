@@ -2,6 +2,7 @@
 
 import os
 from write_small_fastq_chunks import *
+import numpy as np
 
 def execute_parallel_thread_for_file_write(fasta_seq_chunk,out_file,counter,out,out_file_type,quality_char,adaptor,seed):
     max_no_line = len(fasta_seq_chunk)

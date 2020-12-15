@@ -4,7 +4,8 @@ import random
 from alter_nt import *
 
 def sequence_alteration(mir_seq,site,seed):
-    random.seed(seed)
+    if isinstance(seed, int):
+        random.seed(seed)
     if site == 'seed':
         seq_seed = mir_seq[1:7]
         seq_seed = list(seq_seed)

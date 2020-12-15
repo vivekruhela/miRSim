@@ -9,7 +9,8 @@ from sequence_alteration import *
 
 def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, n_seq_per_chr, depth, seq_error, out, out_file,write_mode,repeat,distribution,seed):
     
-    random.seed(seed)
+    if isinstance(seed, int):
+        random.seed(seed)
     if write_mode == 'write':
         rna_ground_truth = open(os.path.join(out,out_file),'w')
         header = 'RNA_ID\tImpure_Region\tCigar_String\tref_Sequence\tsynthetic_sequence\tchr\tchr_start\tchr_end\tExpression_count\n'

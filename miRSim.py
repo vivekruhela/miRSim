@@ -84,7 +84,7 @@ else:
 print('Adaptor Sequence: ', args.adaptor)
 
 if not args.seed:
-    args.seed = random.randint(0,10000)
+    args.seed = 'Not Provided'
     print('Seed: ', args.seed)
 else:
     print('Seed: ', args.seed)

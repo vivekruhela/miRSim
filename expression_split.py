@@ -9,7 +9,10 @@ def expression_split(number, number_of_subsections, distribution, seed, min_rand
     cumulative_sum_of_random_numbers = 0
     current_subsection = 1
     max_random_number = int(number/number_of_subsections)
-    np.random.RandomState(seed)
+    if isinstance(seed, int):
+        np.random.RandomState(seed)
+    else:
+        seed = np.random.RandomState()
     if min_random_number_desired < number:
         if min_random_number_desired > max_random_number:
 #             print("WARNING: Cannot have min number as {} and split {} in {} subsections".format(min_random_number_desired, number, number_of_subsections))

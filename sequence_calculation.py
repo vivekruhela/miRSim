@@ -16,7 +16,7 @@ def sequence_calculation(total_no_seq, desired_seq_percent,depth,seed,gff_df):
         n_seq = total_no_seq*desired_seq_percent/100
         chr_count = pd.DataFrame(pd.Series(gff_df['chr']).value_counts())
         chr_count = pd.DataFrame(chr_count, index=chr_list)
-        n_seq_per_chr = [i*n_seq for i in list(chr_count['chr']/gff_df.shape[0])]
+        n_seq_per_chr = [n_seq/len(chr_list) for i in list(chr_count['chr']/gff_df.shape[0])]
         n_seq_per_chr = list(map(int,n_seq_per_chr))
         n_seq_per_chr[-1] = int(n_seq - sum(n_seq_per_chr[:-1]))
 

@@ -45,6 +45,8 @@ def write_fastq(fasta_seq, adaptor, ascii_base, out, out_file_name,out_file_type
     tmp_file_name = 'tmp_'+str(0)
     out_file = tmp_file_name 
     fasta_seq_chunk = fasta_seq[0*chunk_size:(0+1)*chunk_size]
+    print('------------------------------')
+    print('writing %d chunk'%(j+1))
     execute_parallel_thread_for_file_write(fasta_seq_chunk,out_file,counter,out,out_file_type,quality_char,adaptor,seed)
     time.sleep(20)
     print('-----------------------------------------------------------------------')

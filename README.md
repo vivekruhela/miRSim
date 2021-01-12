@@ -147,7 +147,7 @@ python miRSim.py -i Sample_data/novel_seq.fa -n novel_mirna_raw_data.fastq.gz -g
 ```
 After generating synthetic data for each individual RNA, merge these fastq files and their ground truth csv. e.g.
 ```
-zcat mirna_raw_data.fastq.gz pirna_raw_data.fastq.gz novel_mirna_raw_data.fastq.gz > synthetic_raw_data.fastq.gz
+zcat mirna_raw_data.fastq.gz pirna_raw_data.fastq.gz novel_mirna_raw_data.fastq.gz | gzip > synthetic_raw_data.fastq.gz
 ```
 
 ## Reference

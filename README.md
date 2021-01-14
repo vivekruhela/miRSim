@@ -27,7 +27,7 @@ Rest of the requires packages such as `random,os,sys,gzip,time` are already incl
 You can download this tool by cloning the github repository and use directly by switching to the tool directory.
 
 ```
-git clone vivekruhela/miRSim
+git clone https://github.com/vivekruhela/miRSim.git
 cd miRSim
 ```
 

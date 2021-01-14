@@ -19,7 +19,7 @@ numpy                         pip install numpy
 threading                     pip install threaded
 -----------------------------------------------------
 ```
-Rest of the requires packages such as `random,os,sys,gzip,time` are already included into python standard library.
+Rest of the requires packages such as `random,os,sys,gzip,time` are already included into python standard library. This tool has been tested on Linux (Ubuntu) 16.04 and 18.04 version.
 
 
 ### Installing

@@ -36,7 +36,7 @@ args = parser.parse_args()
 print('######################################################################################')
 print('miRSim: Seed-based Synthetic Sequence Simualtor')
 print('Version: 1.0')
-print('Developer: Vivek Ruhela')
+print('Developer: Vivek Ruhela, Ph.d.')
 print('Department: Center for Computational Biology')
 print('Institute: Indraprastha Institute of Information Technnology, New Delhi, India')
 print('######################################################################################')
@@ -52,6 +52,35 @@ if not args.input:
 if not args.gff_file:
     print('Please provide referencce GFF file')
     sys.exit(1)
+
+print('--------------------------------------------------------------------------------------')
+default_param = {}
+if not args.total_seq:
+    default_param['Total number of sequences to be generated'] = args.total_seq
+if not args.depth:
+    default_param['Minimum depth'] = args.depth
+if not args.encoding_quality:
+    default_param['Encoding Quality'] = args.encoding_quality
+if not args.expression_distribution:
+    default_param['Expression Distribution'] = args.expression_distribution
+if not args.replacement:
+    default_param['Select RNAs with Replacement'] = args.replacement
+if not args.adaptor:
+    default_param['Adaptor'] = args.adaptor
+if not args.thread:
+    default_param['Number of thread'] = args.thread
+if not args.rna_type:
+    default_param['RNA type'] = args.rna_type
+
+print('The following parameters are at default values:')
+if bool(default_param):
+    for k,v in default_param.items():
+        print(k, " = ", v)
+
+
+print('--------------------------------------------------------------------------------------')
+
+
 
 print('--------------------------------------------------------------------------------------')
 

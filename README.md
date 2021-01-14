@@ -27,8 +27,50 @@ Rest of the requires packages such as `random,os,sys,gzip,time` are already incl
 You can download this tool by cloning the github repository and use directly by switching to the tool directory.
 
 ```
-git clone vivekruhela/miRSim
+git clone https://github.com/vivekruhela/miRSim.git
 cd miRSim
+```
+
+## Databases
+#### Databases Required
+miRBase and piRNAdb
+#### Database used
+In Sample_data directory, we have used miRBase (version 22) and piRNAdb (version 1.7.5) for their sequences in fasta files and their genomic location in gff file.
+
+## Project Structure
+
+```
+|---- Sample_data
+         |---- hsa_miRNA_high_conf.gff3
+         |---- mature_high_conf_miRNA_hsa.fa
+         |---- novel_miRNA.gff3
+         |---- novel_seq.fa
+         |---- pirnadb_hg38.gff3
+         |---- piRNAdb.hsa.v1_7_5.fa
+|---- miRSim.py
+|        |
+|        |---- generate_synthetic_data.py
+|                        |
+|                        |---- generate_synthetic_data.py
+|                                            |
+|                                            |---- gff.py
+|                                            |---- update_gff.py
+|                                            |---- generate_sequence.py
+|                                                          |---- expression_split.py
+|                                                          |---- cigar_generation.py
+|                                                          |---- mir_location.py
+|                                                          |---- sequence_alteration.py
+|                                                                        |---- alter_nt.py
+|                                            |---- sequence_calculation.py
+|                                                          |---- expression_split.py
+|                                                          |---- sort_by_chromosome.py
+|                                            |---- write_fastq.py
+|                                                       |---- execute_parallel_thread_for_file_write.py
+|                                                                         |---- write_small_fastq_chunks.py
+|---- miRSim.ipynb
+|---- synthetic_reads.png
+|---- README.md
+|---- LICENSE
 ```
 
 ## Arguments
@@ -100,13 +142,13 @@ optional arguments:
 ```
 
 ### Example
-(A) Intermediate Example: If you want to prepare the synthetic data having total number of sequences = 50000 and contains standard miRNA (let's say 50% i.e. 25000 sequences) and non-miRNAs (let's say 50% i.e. 25000 sequences)
+(A) Basic Example: If you want to prepare the synthetic data having total number of sequences = 50000 and contains standard miRNA (let's say 50% i.e. 25000 sequences) and non-miRNAs (let's say 50% i.e. 25000 sequences)
 
 ```
 python miRSim.py -i Sample_data/mature_high_conf_miRNA_hsa.fa -gff Sample_data/hsa_miRNA_high_conf.gff3 -st 50 -nr 50
 ```
 
-(B) Advance Example: If you want to prepare the synthetic data that contains multiple type of RNAs (let's say mIRNA + piRNA + novel miRNA) with following proportion:
+(B) Advance Example: If you want to prepare the synthetic data that contains multiple type of RNAs (let's say miRNA + piRNA + novel miRNA) with following proportion:
 
 ```
 Total Number of sequence = 500000
@@ -122,7 +164,7 @@ Total Number of sequence = 500000
 % of novel miRNA sequence with error in seed region                = 10% (i.e. 10000 sequences)
 % of novel miRNA sequence with error in xseed region               = 3% (i.e. 3000 sequences)
 % of novel miRNA sequence with error in both seed and xseed region = 2% (i.e. 2000 sequences)
-                                                             
+
                                                              Total = 100%
 ```
 
@@ -147,7 +189,7 @@ python miRSim.py -i Sample_data/novel_seq.fa -n novel_mirna_raw_data.fastq.gz -g
 ```
 After generating synthetic data for each individual RNA, merge these fastq files and their ground truth csv. e.g.
 ```
-zcat mirna_raw_data.fastq.gz pirna_raw_data.fastq.gz novel_mirna_raw_data.fastq.gz > synthetic_raw_data.fastq.gz
+zcat mirna_raw_data.fastq.gz pirna_raw_data.fastq.gz novel_mirna_raw_data.fastq.gz | gzip > synthetic_raw_data.fastq.gz
 ```
 
 ## Reference

@@ -57,7 +57,6 @@ print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 default_param = {}
 if args.total_seq == 50000:
     default_param['Total number of sequences to be generated'] = args.total_seq
-<<<<<<< HEAD
 if args.min_depth == 5:
     default_param['Minimum depth'] = args.min_depth
 if args.encoding_quality == 33:

@@ -31,6 +31,12 @@ git clone https://github.com/vivekruhela/miRSim.git
 cd miRSim
 ```
 
+(For reviewers) The git clone command will ask for credentials. Please enter the following credentials to clone the repository.
+```
+username: mirpipedockertest
+password: iiitdelhi123
+```
+
 ## Databases
 #### Databases Required
 miRBase and piRNAdb

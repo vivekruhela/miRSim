@@ -65,7 +65,6 @@ if args.encoding_quality == 33:
 if not args.min_depth:
     default_param['Minimum depth'] = args.min_depth
 if not args.encoding_quality:
->>>>>>> 9adfabdbc87ba5c39b71a32d3871ef2a99ed0d38
     default_param['Encoding Quality'] = args.encoding_quality
 if args.expression_distribution == 'poisson':
     default_param['Expression Distribution'] = args.expression_distribution

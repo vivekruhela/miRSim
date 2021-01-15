@@ -31,6 +31,12 @@ git clone https://github.com/vivekruhela/miRSim.git
 cd miRSim
 ```
 
+(For reviewers) The git clone command will ask for credentials. Please enter the following credentials to clone the repository.
+```
+username: mirpipedockertest
+password: iiitdelhi123
+```
+
 ## Databases
 #### Databases Required
 miRBase and piRNAdb
@@ -207,4 +213,6 @@ See the [LICENSE](LICENSE) file for license rights and limitations (Apache2.0).
 
 ## Acknowledgement
 
-This work was supported by Infosys Centre for AI, IIIT Delhi.
+1. Authors would like to gratefully acknowledge the support by grant from Department of Biotechnology, Govt. of India [Grant: BT/MED/30/SP11006/2015] and Department of Science and Technology, Govt. of India [Grant: DST/ICPS/CPS-Individual/2018/279(G)].
+2. Authors would like to gratefully acknowledge the support of Computational Biology Dept., Indraprastha Institute of Information Technology-Delhi (IIIT-D), India for providing resources for tool development.
+3. Authors would like to gratefully acknowledge the support of SBILab, Deptt. of ECE & Centre of Excellence in Healthcare, Indraprastha Institute of Information Technology-Delhi (IIIT-D), India for providing guidance in tool metholody and development.

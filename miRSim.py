@@ -57,9 +57,15 @@ print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 default_param = {}
 if args.total_seq == 50000:
     default_param['Total number of sequences to be generated'] = args.total_seq
+<<<<<<< HEAD
 if args.min_depth == 5:
     default_param['Minimum depth'] = args.min_depth
 if args.encoding_quality == 33:
+=======
+if not args.min_depth:
+    default_param['Minimum depth'] = args.min_depth
+if not args.encoding_quality:
+>>>>>>> 9adfabdbc87ba5c39b71a32d3871ef2a99ed0d38
     default_param['Encoding Quality'] = args.encoding_quality
 if args.expression_distribution == 'poisson':
     default_param['Expression Distribution'] = args.expression_distribution

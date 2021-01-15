@@ -26,7 +26,7 @@ If the above command runs successfully, you should see two files in the current 
 
 ### Running miRSim with error
 
-You can give either non_rna fraction in the input or seed, xseed region error fraction in the input command. If you have mistakenly given both arguents, you'll see the following error messages:
+You can give input as either "non_rna fraction" or all the three namely "seed, xseed region and seed+xseed togther error fraction" in the input command, but not both. If you have mistakenly given both arguents, you'll see the following error messages:
 
 ![Error Message 1](Screenshots/Error_screenshot.png)
 
@@ -39,3 +39,11 @@ python miRSim.py -i Sample_data/mature_high_conf_miRNA_hsa.fa -gff Sample_data/h
 After giving the above commands you should get the following response:
 
 ![Error Message 1](Screenshots/User_defined_parameters.png)
+
+### Final output files
+
+You'll get two output files: 
+
+1. Compressed Fastq/fasta file
+
+2. Comma separated file (csv) as shown below:

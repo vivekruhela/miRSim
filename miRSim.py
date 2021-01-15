@@ -53,23 +53,23 @@ if not args.gff_file:
     print('Please provide referencce GFF file')
     sys.exit(1)
 
-print('--------------------------------------------------------------------------------------')
+print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 default_param = {}
-if not args.total_seq:
+if args.total_seq == 50000:
     default_param['Total number of sequences to be generated'] = args.total_seq
-if not args.depth:
-    default_param['Minimum depth'] = args.depth
-if not args.encoding_quality:
+if args.min_depth == 5:
+    default_param['Minimum depth'] = args.min_depth
+if args.encoding_quality == 33:
     default_param['Encoding Quality'] = args.encoding_quality
-if not args.expression_distribution:
+if args.expression_distribution == 'poisson':
     default_param['Expression Distribution'] = args.expression_distribution
-if not args.replacement:
+if args.replacement:
     default_param['Select RNAs with Replacement'] = args.replacement
-if not args.adaptor:
+if args.adaptor == 'TGGAATTCTCGGGTGCCAAGG':
     default_param['Adaptor'] = args.adaptor
-if not args.thread:
+if args.thread == 4:
     default_param['Number of thread'] = args.thread
-if not args.rna_type:
+if args.rna_type == 'miRNA':
     default_param['RNA type'] = args.rna_type
 
 print('The following parameters are at default values:')
@@ -78,7 +78,7 @@ if bool(default_param):
         print(k, " = ", v)
 
 
-print('--------------------------------------------------------------------------------------')
+print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
 
 

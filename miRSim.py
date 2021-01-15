@@ -60,7 +60,7 @@ if args.total_seq == 50000:
 if args.min_depth == 5:
     default_param['Minimum depth'] = args.min_depth
 if args.encoding_quality == 33:
-=======
+    default_param['Encoding Quality'] = args.encoding_quality
 if not args.min_depth:
     default_param['Minimum depth'] = args.min_depth
 if not args.encoding_quality:

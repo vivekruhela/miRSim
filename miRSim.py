@@ -31,6 +31,17 @@ parser.add_argument("-th","--thread",help="Number of Parallel thread.", default=
 parser.add_argument("-r","--replacement",help="Sample RNAs with replacement",default=True)
 parser.add_argument("-rna","--rna_type",help="RNA type (miRNA/piRNA/...).", default='miRNA',type=str)
 
+class bcolors:
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKCYAN = '\033[96m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
+
 args = parser.parse_args()
 
 print('######################################################################################')
@@ -47,10 +58,10 @@ if args.encoding_quality:
             sys.exit('ERROR : To generate fasta file, the parameter -e should be equal to 0.')
 
 if not args.input:
-    sys.exit('Please provide referencce sequence file')
+    sys.exit(bcolors.FAIL + 'Please provide referencce sequence file' + bcolors.ENDC)
 
 if not args.gff_file:
-    print('Please provide referencce GFF file')
+    print(bcolors.FAIL + 'Please provide referencce GFF file' + bcolors.ENDC)
     sys.exit(1)
 
 print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
@@ -76,11 +87,10 @@ if args.thread == 4:
 if args.rna_type == 'miRNA':
     default_param['RNA type'] = args.rna_type
 
-print('The following parameters are at default values:')
+print(bcolors.HEADER + 'The following parameters are at default values:' + bcolors.ENDC)
 if bool(default_param):
     for k,v in default_param.items():
-        print(k, " = ", v)
-
+        print(bcolors.WARNING + str(k) + " = " + str(v) + bcolors.ENDC)
 
 print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 
@@ -110,13 +120,13 @@ if args.non_rna:
         print('% fraction of sequences having error in xseed region: ', args.xseed_error_seq)
         print('% fraction of sequences having error in both seed and xseed region: ', args.both_seed_xseed_error_seq)
     else:
-        sys.exit("ERROR: Please do not provide both non_RNA fraction and seed,xeed error fractions.")
+        sys.exit(bcolors.FAIL + "ERROR: Please do not provide both non_RNA fraction and seed,xeed error fractions." + bcolors.ENDC)
 elif args.seed_error_seq and args.xseed_error_seq and args.both_seed_xseed_error_seq:
     print('% fraction of sequences having error in seed region: ', args.seed_error_seq)
     print('% fraction of sequences having error in xseed region: ', args.xseed_error_seq)
     print('% fraction of sequences having error in both seed and xseed region: ', args.both_seed_xseed_error_seq)
 else:
-    sys.exit('Please provide either non-mir fraction or seed, xseed error fractions.')
+    sys.exit(bcolors.FAIL + 'Please provide either non-mir fraction or seed, xseed error fractions.' + bcolors.ENDC)
 
 print('Minimum depth: ',args.min_depth)
 

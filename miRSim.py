@@ -57,8 +57,8 @@ print('-------------------------------------------------------------------------
 default_param = {}
 if not args.total_seq:
     default_param['Total number of sequences to be generated'] = args.total_seq
-if not args.depth:
-    default_param['Minimum depth'] = args.depth
+if not args.min_depth:
+    default_param['Minimum depth'] = args.min_depth
 if not args.encoding_quality:
     default_param['Encoding Quality'] = args.encoding_quality
 if not args.expression_distribution:

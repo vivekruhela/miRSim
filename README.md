@@ -41,17 +41,17 @@ password: iiitdelhi123
 #### Databases Required
 miRBase and piRNAdb
 #### Database used
-In Sample_data directory, we have used miRBase (version 22) and piRNAdb (version 1.7.5) for their sequences in fasta files and their genomic location in gff file.
+In refs directory, we have used miRBase (version 22) and piRNAdb (version 1.7.5) for their sequences in fasta files and their genomic location in gff file.
 
 ## Project Structure
 
 ```
-|---- Sample_data
-         |---- hsa_miRNA_high_conf.gff3
-         |---- mature_high_conf_miRNA_hsa.fa
-         |---- novel_miRNA.gff3
-         |---- novel_seq.fa
-         |---- pirnadb_hg38.gff3
+|---- refs
+         |---- hsa_high_conf.gff3
+         |---- mature_high_conf_hsa.fa
+         |---- novel_gff.gff3
+         |---- final_novel_seq_filtered.fa
+         |---- pirnadb.hg38.gff3
          |---- piRNAdb.hsa.v1_7_5.fa
 |---- miRSim.py
 |        |
@@ -151,7 +151,7 @@ optional arguments:
 (A) Basic Example: If you want to prepare the synthetic data having total number of sequences = 50000 and contains standard miRNA (let's say 50% i.e. 25000 sequences) and non-miRNAs (let's say 50% i.e. 25000 sequences)
 
 ```
-python miRSim.py -i Sample_data/mature_high_conf_miRNA_hsa.fa -gff Sample_data/hsa_miRNA_high_conf.gff3 -st 50 -nr 50
+python miRSim.py -i refs/mature_high_conf_hsa.fa -gff refs/hsa_high_conf.gff3 -st 50 -nr 50
 ```
 
 (B) Advance Example: If you want to prepare the synthetic data that contains multiple type of RNAs (let's say miRNA + piRNA + novel miRNA) with following proportion:
@@ -179,19 +179,19 @@ In order to generate such data you need to call miRSim module separately for eac
 ```
 For miRNA synthetic data
 
-python miRSim.py -i Sample_data/mature_high_conf_miRNA_hsa.fa -n mirna_raw_data.fastq.gz -g mirna_ground_truth.csv -gff Sample_data/hsa_miRNA_high_conf.gff3 -t 500000 -st 20 -s 10 -x 10 -b 5 -se 1001 -th 6 -rna miRNA
+python miRSim.py -i refs/mature_high_conf_hsa.fa -n mirna_raw_data.fastq.gz -g mirna_ground_truth.csv -gff refs/hsa_high_conf.gff3 -t 500000 -st 20 -s 10 -x 10 -b 5 -se 1001 -th 6 -rna miRNA
 ```
 
 ```
 For piRNA synthetic data
 
-python miRSim.py -i Sample_data/piRNAdb.hsa.v1_7_5.fa -n pirna_raw_data.fastq.gz -g pirna_ground_truth.csv -gff Sample_data/pirnadb_hg38.gff3 -t 500000 -st 10 -s 10 -x 5 -b 5 -se 1001 -th 6 -rna piRNA
+python miRSim.py -i refs/piRNAdb.hsa.v1_7_5.fa -n pirna_raw_data.fastq.gz -g pirna_ground_truth.csv -gff refs/pirnadb.hg38.gff3 -t 500000 -st 10 -s 10 -x 5 -b 5 -se 1001 -th 6 -rna piRNA
 ```
 
 ```
 For novel miRNA synthetic data
 
-python miRSim.py -i Sample_data/novel_seq.fa -n novel_mirna_raw_data.fastq.gz -g novel_mirna_ground_truth.csv -gff Sample_data/novel_miRNA.gff3 -t 500000 -st 10 -s 10 -x 3 -b 2 -se 1001 -th 6 -rna novelRNA
+python miRSim.py -i refs/final_novel_seq_filtered.fa -n novel_mirna_raw_data.fastq.gz -g novel_mirna_ground_truth.csv -gff refs/novel_gff.gff3 -t 500000 -st 10 -s 10 -x 3 -b 2 -se 1001 -th 6 -rna novelRNA
 ```
 After generating synthetic data for each individual RNA, merge these fastq files and their ground truth csv. e.g.
 ```

@@ -12,11 +12,11 @@ from generate_synthetic_data import *
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-i","--input",help="Reference fasta file input.",type=str)
 parser.add_argument("-t","--total_seq",help="Total number of sequence to be generated.",nargs="?", default=50000,type=int)
-parser.add_argument("-st","--std_seq",help="Fraction of stadnard sequence out of total generated sequence.",type=int)
-parser.add_argument("-nr","--non_rna",help="Fraction of Non RNA sequence out of total generated sequence.",type=int)
-parser.add_argument("-s","--seed_error_seq",help="Fraction of sequence having impurity in seed region out of total generated sequence.",type=int)
-parser.add_argument("-x","--xseed_error_seq",help="Fraction of sequence having impurity in xseed region (extra region outside seed region) out of total generated sequence.",type=int)
-parser.add_argument("-b","--both_seed_xseed_error_seq",help="Fraction of sequence having impurity in both seed and xseed region outo of total generated sequence.",type=int)
+parser.add_argument("-st","--std_seq",help="Fraction of stadnard sequence out of total generated sequence.",type=float)
+parser.add_argument("-nr","--non_rna",help="Fraction of Non RNA sequence out of total generated sequence.",type=float)
+parser.add_argument("-s","--seed_error_seq",help="Fraction of sequence having impurity in seed region out of total generated sequence.",type=float)
+parser.add_argument("-x","--xseed_error_seq",help="Fraction of sequence having impurity in xseed region (extra region outside seed region) out of total generated sequence.",type=float)
+parser.add_argument("-b","--both_seed_xseed_error_seq",help="Fraction of sequence having impurity in both seed and xseed region outo of total generated sequence.",type=float)
 parser.add_argument("-d","--min_depth",help="Minimum depth of sequence to be generated.", default=5,type=int)
 parser.add_argument("-e","--encoding_quality",help="Quality score encoding for fastq file (33/64 for fastq, 0 for fasta).", default=33,type=int)
 parser.add_argument("-se","--seed",help="Seed (random/fixed-prided by user).",type=int)
@@ -98,75 +98,75 @@ print('+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 print('--------------------------------------------------------------------------------------')
 
-print('Generating the Synthetic sequences using the following Parameters:')
+print(bcolors.BOLD + 'Generating the Synthetic sequences using the following Parameters:' + bcolors.ENDC)
 
-print('Input reference file: ', args.input)
+print(bcolors.BOLD + 'Input reference file: ' + bcolors.ENDC, args.input)
 
-print('GFF reference file: ',args.gff_file)
+print(bcolors.BOLD + 'GFF reference file: ' + bcolors.ENDC,args.gff_file)
 
-print('RNA type: ', args.rna_type)
+print(bcolors.BOLD + 'RNA type: ' + bcolors.ENDC, args.rna_type)
 
-print('Total number of sequences to be generated: ', args.total_seq)
+print(bcolors.BOLD + 'Total number of sequences to be generated: ' + bcolors.ENDC, args.total_seq)
 
-print('% fraction of standard sequences: ', args.std_seq)
+print(bcolors.BOLD + '% fraction of standard sequences: ' + bcolors.ENDC, args.std_seq)
 
 if args.non_rna:
     if not args.seed_error_seq and not args.xseed_error_seq and not args.both_seed_xseed_error_seq:
-        print('% fraction of non RNA sequences (approximately equally divided into seed, xseed and both seed xseed error seq): ', args.non_rna)
+        print(bcolors.BOLD + '% fraction of non RNA sequences (approximately equally divided into seed, xseed and both seed xseed error seq): ' + bcolors.ENDC, args.non_rna)
         args.seed_error_seq = int(args.non_rna/3)
         args.xseed_error_seq = int(args.non_rna/3)
         args.both_seed_xseed_error_seq = args.non_rna - args.seed_error_seq - args.xseed_error_seq
-        print('% fraction of sequences having error in seed region: ', args.seed_error_seq)
-        print('% fraction of sequences having error in xseed region: ', args.xseed_error_seq)
-        print('% fraction of sequences having error in both seed and xseed region: ', args.both_seed_xseed_error_seq)
+        print(bcolors.BOLD + '% fraction of sequences having error in seed region: ' + bcolors.ENDC, args.seed_error_seq)
+        print(bcolors.BOLD + '% fraction of sequences having error in xseed region: ' + bcolors.ENDC, args.xseed_error_seq)
+        print(bcolors.BOLD + '% fraction of sequences having error in both seed and xseed region: ' + bcolors.ENDC, args.both_seed_xseed_error_seq)
     else:
         sys.exit(bcolors.FAIL + "ERROR: Please do not provide both non_RNA fraction and seed,xeed error fractions." + bcolors.ENDC)
 elif args.seed_error_seq and args.xseed_error_seq and args.both_seed_xseed_error_seq:
-    print('% fraction of sequences having error in seed region: ', args.seed_error_seq)
-    print('% fraction of sequences having error in xseed region: ', args.xseed_error_seq)
-    print('% fraction of sequences having error in both seed and xseed region: ', args.both_seed_xseed_error_seq)
+    print(bcolors.BOLD + '% fraction of sequences having error in seed region: ' + bcolors.ENDC, args.seed_error_seq)
+    print(bcolors.BOLD + '% fraction of sequences having error in xseed region: ' + bcolors.ENDC, args.xseed_error_seq)
+    print(bcolors.BOLD + '% fraction of sequences having error in both seed and xseed region: ' + bcolors.ENDC, args.both_seed_xseed_error_seq)
 else:
     sys.exit(bcolors.FAIL + 'Please provide either non-mir fraction or seed, xseed error fractions.' + bcolors.ENDC)
 
-print('Minimum depth: ',args.min_depth)
+print(bcolors.BOLD + 'Minimum depth: ' + bcolors.ENDC,args.min_depth)
 
 if not args.out_file_name:
     args.out_file_name = str(args.rna_type) + '.fastq.gz'
-    print('Ouput file name: ', args.out_file_name)
+    print(bcolors.BOLD + 'Ouput file name: ' + bcolors.ENDC, args.out_file_name)
 else:
-    print('Ouput file name: ', args.out_file_name)
+    print(bcolors.BOLD + 'Ouput file name: ' + bcolors.ENDC, args.out_file_name)
 
 if not args.ground_truth_file:
     args.ground_truth_file = str(args.rna_type) + '_ground_truth.csv'
-    print('Ouput ground truth file name: ', args.ground_truth_file)
+    print(bcolors.BOLD + 'Ouput ground truth file name: ' + bcolors.ENDC, args.ground_truth_file)
 else:
-    print('Ouput ground truth file name: ', args.ground_truth_file)
+    print(bcolors.BOLD + 'Ouput ground truth file name: ' + bcolors.ENDC, args.ground_truth_file)
 
 if args.out_file_type == 'fastq':
-    print('Output file type: ', args.out_file_type)
-    print('Encoding Quality: ', args.encoding_quality)
+    print(bcolors.BOLD + 'Output file type: ' + bcolors.ENDC, args.out_file_type)
+    print(bcolors.BOLD + 'Encoding Quality: ' + bcolors.ENDC, args.encoding_quality)
 else:
-    print('Output file type: ', args.out_file_type)
+    print(bcolors.BOLD + 'Output file type: ' + bcolors.ENDC, args.out_file_type)
 
 if not args.out_path:
     args.out_path = os.getcwd()
-    print('Output file location: ', args.out_path)
+    print(bcolors.BOLD + 'Output file location: ' + bcolors.ENDC, args.out_path)
 else:
-    print('Output file location: ', args.out_path)
+    print(bcolors.BOLD + 'Output file location: ' + bcolors.ENDC, args.out_path)
 
-print('Adaptor Sequence: ', args.adaptor)
+print(bcolors.BOLD + 'Adaptor Sequence: ' + bcolors.ENDC, args.adaptor)
 
 if not args.seed:
     args.seed = 'Not Provided'
-    print('Seed: ', args.seed)
+    print(bcolors.BOLD + 'Seed: ' + bcolors.ENDC, args.seed)
 else:
-    print('Seed: ', args.seed)
+    print(bcolors.BOLD + 'Seed: ' + bcolors.ENDC, args.seed)
 
-print('Expression distribution: ', args.expression_distribution)
+print(bcolors.BOLD + 'Expression distribution: ' + bcolors.ENDC, args.expression_distribution)
 
-print('The numbper of parallel thread: ', args.thread)
+print(bcolors.BOLD + 'The numbper of parallel thread: ' + bcolors.ENDC, args.thread)
 
-print('Select RNAs with Replacement: ', args.replacement)
+print(bcolors.BOLD + 'Select RNAs with Replacement: ' + bcolors.ENDC, args.replacement)
 
 print('--------------------------------------------------------------------------------------')    
 

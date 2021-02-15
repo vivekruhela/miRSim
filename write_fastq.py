@@ -52,8 +52,8 @@ def write_fastq(fasta_seq, adaptor, ascii_base, out, out_file_name,out_file_type
     print('-----------------------------------------------------------------------')
     print('All chunks are written. Now merging all the temporary files and compressing it.')
     if out_file_type == 'fastq':
-        cmd = 'pigz '+ os.path.join(out,'temp') +'/tmp_*.fastq -c > ' + os.path.join(out,out_file_name)
+        cmd = 'gzip '+ os.path.join(out,'temp') +'/tmp_*.fastq -c > ' + os.path.join(out,out_file_name)
     else:
-        cmd = 'pigz '+ os.path.join(out,'temp') + '/tmp_*.fasta -c > ' + os.path.join(out,out_file_name)
+        cmd = 'gzip '+ os.path.join(out,'temp') + '/tmp_*.fasta -c > ' + os.path.join(out,out_file_name)
     os.system(cmd)
     

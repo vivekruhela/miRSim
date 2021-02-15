@@ -7,7 +7,7 @@ from cigar_generation import *
 from mir_location import *
 from sequence_alteration import *
 
-def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, n_seq_per_chr, depth, seq_error, out, out_file,write_mode,repeat,distribution,seed):
+def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, n_seq_per_chr, depth, seq_error, out, out_file,write_mode,repeat,distribution, no_mismatch_seed , no_mismatch_xseed,seed):
     
     if isinstance(seed, int):
         random.seed(seed)
@@ -58,13 +58,13 @@ def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, n_seq_per_chr, de
                         mir_seq_new = rna_dict[mir]
                         mir_cigar = cigar_generation(rna_dict[mir],mir_seq_new)
                     elif seq_error == 'Seed_region':
-                        mir_seq_new = sequence_alteration(rna_dict[mir],'seed',seed)
+                        mir_seq_new = sequence_alteration(rna_dict[mir],'seed',no_mismatch_seed , no_mismatch_xseed, seed)
                         mir_cigar = cigar_generation(rna_dict[mir],mir_seq_new)
                     elif seq_error == 'Outside_Seed_region':
-                        mir_seq_new = sequence_alteration(rna_dict[mir],'xseed',seed)
+                        mir_seq_new = sequence_alteration(rna_dict[mir],'xseed',no_mismatch_seed , no_mismatch_xseed, seed)
                         mir_cigar = cigar_generation(rna_dict[mir],mir_seq_new)
                     elif seq_error == 'Both_region':
-                        mir_seq_new = sequence_alteration(rna_dict[mir],'both',seed)
+                        mir_seq_new = sequence_alteration(rna_dict[mir],'both',no_mismatch_seed , no_mismatch_xseed, seed)
                         mir_cigar = cigar_generation(rna_dict[mir],mir_seq_new)
 
                     loc = mir_location(gff_df,mir,seed)

@@ -10,26 +10,28 @@ import random
 from generate_synthetic_data import * 
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument("-i","--input",help="Reference fasta file input.",type=str)
-parser.add_argument("-t","--total_seq",help="Total number of sequence to be generated.",nargs="?", default=50000,type=int)
-parser.add_argument("-st","--std_seq",help="Fraction of stadnard sequence out of total generated sequence.",type=float)
-parser.add_argument("-nr","--non_rna",help="Fraction of Non RNA sequence out of total generated sequence.",type=float)
-parser.add_argument("-s","--seed_error_seq",help="Fraction of sequence having impurity in seed region out of total generated sequence.",type=float)
-parser.add_argument("-x","--xseed_error_seq",help="Fraction of sequence having impurity in xseed region (extra region outside seed region) out of total generated sequence.",type=float)
+parser.add_argument("-a","--adaptor",help="Adaptor Sequence.", default='TGGAATTCTCGGGTGCCAAGG',type=str)
 parser.add_argument("-b","--both_seed_xseed_error_seq",help="Fraction of sequence having impurity in both seed and xseed region outo of total generated sequence.",type=float)
 parser.add_argument("-d","--min_depth",help="Minimum depth of sequence to be generated.", default=5,type=int)
+parser.add_argument("-dist","--expression_distribution",help="Distribution type for expression values.", default='poisson',type=str)
 parser.add_argument("-e","--encoding_quality",help="Quality score encoding for fastq file (33/64 for fastq, 0 for fasta).", default=33,type=int)
-parser.add_argument("-se","--seed",help="Seed (random/fixed-prided by user).",type=int)
-parser.add_argument("-o","--out_path",help="Path of saving output (fastq/fasta) file.")
-parser.add_argument("-n","--out_file_name",help="Name of output sequence file (fastq/fasta).")
 parser.add_argument("-g","--ground_truth_file",help="Name of output ground truth file.")
 parser.add_argument("-gff","--gff_file",help="GFF file.")
+parser.add_argument("-i","--input",help="Reference fasta file input.",type=str)
+parser.add_argument("-ms","--mismatch_seed",help="Maximum number of mismatch in seed region", default=2, type=int)
+parser.add_argument("-mxs","--mismatch_xseed",help="Maximum number of mismatch in xseed region", default=2, type=int)
+parser.add_argument("-n","--out_file_name",help="Name of output sequence file (fastq/fasta).")
+parser.add_argument("-nr","--non_rna",help="Fraction of Non RNA sequence out of total generated sequence.",type=float)
+parser.add_argument("-o","--out_path",help="Path of saving output (fastq/fasta) file.")
 parser.add_argument("-q","--out_file_type",help="Output file type.", default='fastq',type=str)
-parser.add_argument("-dist","--expression_distribution",help="Distribution type for expression values.", default='poisson',type=str)
-parser.add_argument("-a","--adaptor",help="Adaptor Sequence.", default='TGGAATTCTCGGGTGCCAAGG',type=str)
-parser.add_argument("-th","--thread",help="Number of Parallel thread.", default=4,type=int)
 parser.add_argument("-r","--replacement",help="Sample RNAs with replacement",default=True)
 parser.add_argument("-rna","--rna_type",help="RNA type (miRNA/piRNA/...).", default='miRNA',type=str)
+parser.add_argument("-s","--seed_error_seq",help="Fraction of sequence having impurity in seed region out of total generated sequence.",type=float)
+parser.add_argument("-se","--seed",help="Seed (random/fixed-prided by user).",type=int)
+parser.add_argument("-st","--std_seq",help="Fraction of stadnard sequence out of total generated sequence.",type=float)
+parser.add_argument("-t","--total_seq",help="Total number of sequence to be generated.",nargs="?", default=50000,type=int)
+parser.add_argument("-th","--thread",help="Number of Parallel thread.", default=4,type=int)
+parser.add_argument("-x","--xseed_error_seq",help="Fraction of sequence having impurity in xseed region (extra region outside seed region) out of total generated sequence.",type=float)
 
 class bcolors:
     HEADER = '\033[95m'
@@ -63,6 +65,14 @@ if not args.input:
 if not args.gff_file:
     print(bcolors.FAIL + 'Please provide referencce GFF file' + bcolors.ENDC)
     sys.exit(1)
+    
+if args.mismatch_seed >= 6:
+    print(bcolors.FAIL + 'The maximum number of mismatch in seed region should be less than 6.' + bcolors.ENDC)
+    sys.exit(1)
+    
+if args.mismatch_xseed >= 12:
+    print(bcolors.FAIL + 'The maximum number of mismatch in xseed region should be less than 12.' + bcolors.ENDC)
+    sys.exit(1)
 
 print('++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++')
 default_param = {}
@@ -74,6 +84,10 @@ if args.encoding_quality == 33:
     default_param['Encoding Quality'] = args.encoding_quality
 if not args.min_depth:
     default_param['Minimum depth'] = args.min_depth
+if args.mismatch_seed == 2:
+    default_param['Max Mismatch Seed Region'] = args.mismatch_seed
+if args.mismatch_xseed == 2:
+    default_param['Max Mismatch Xseed Region'] = args.mismatch_xseed
 if not args.encoding_quality:
     default_param['Encoding Quality'] = args.encoding_quality
 if args.expression_distribution == 'poisson':
@@ -130,6 +144,10 @@ else:
 
 print(bcolors.BOLD + 'Minimum depth: ' + bcolors.ENDC,args.min_depth)
 
+print(bcolors.BOLD + 'Max Mismatch in seed region: ' + bcolors.ENDC,args.mismatch_seed)
+
+print(bcolors.BOLD + 'Max Mismatch in xseed region: ' + bcolors.ENDC,args.mismatch_xseed)
+
 if not args.out_file_name:
     args.out_file_name = str(args.rna_type) + '.fastq.gz'
     print(bcolors.BOLD + 'Ouput file name: ' + bcolors.ENDC, args.out_file_name)
@@ -170,9 +188,15 @@ print(bcolors.BOLD + 'Select RNAs with Replacement: ' + bcolors.ENDC, args.repla
 
 print('--------------------------------------------------------------------------------------')    
 
+start = time.time()
+
 generate_synthetic_data(args.input, args.total_seq, args.std_seq, args.seed_error_seq,
                         args.xseed_error_seq, args.both_seed_xseed_error_seq, args.min_depth,
                         args.encoding_quality, args.out_path, args.out_file_name, 
                         args.ground_truth_file, args.gff_file, args.rna_type, args.out_file_type,
                         args.replacement, args.expression_distribution, args.seed, args.adaptor,
-                        args.thread)
+                        args.mismatch_seed, args.mismatch_xseed, args.thread)
+
+end = time.time()
+time_taken = '%.2f' % ((end-start)/60)
+print(f"Runtime of the program is {time_taken} minutes")

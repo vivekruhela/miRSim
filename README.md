@@ -39,7 +39,7 @@ password: iiitdelhi123
 
 ## Databases
 #### Databases Required
-miRBase and piRNAdb
+[miRBase](http://www.mirbase.org/) and [piRNAdb](https://www.pirnadb.org/)
 #### Database used
 In refs directory, we have used miRBase (version 22) and piRNAdb (version 1.7.5) for their sequences in fasta files and their genomic location in gff file.
 
@@ -82,34 +82,19 @@ In refs directory, we have used miRBase (version 22) and piRNAdb (version 1.7.5)
 ## Arguments
 
 ```
-usage: miRSim.py [-h] [-i INPUT] [-t [TOTAL_SEQ]] [-st STD_SEQ] [-nr NON_RNA]
-                 [-s SEED_ERROR_SEQ] [-x XSEED_ERROR_SEQ]
-                 [-b BOTH_SEED_XSEED_ERROR_SEQ] [-d MIN_DEPTH]
-                 [-e ENCODING_QUALITY] [-se SEED] [-o OUT_PATH]
-                 [-n OUT_FILE_NAME] [-g GROUND_TRUTH_FILE] [-gff GFF_FILE]
-                 [-q OUT_FILE_TYPE] [-dist EXPRESSION_DISTRIBUTION]
-                 [-a ADAPTOR] [-th THREAD] [-r REPLACEMENT] [-rna RNA_TYPE]
+usage: miRSim.py [-h] [-a ADAPTOR] [-b BOTH_SEED_XSEED_ERROR_SEQ]
+                 [-d MIN_DEPTH] [-dist EXPRESSION_DISTRIBUTION]
+                 [-e ENCODING_QUALITY] [-g GROUND_TRUTH_FILE] [-gff GFF_FILE]
+                 [-i INPUT] [-ms MISMATCH_SEED] [-mxs MISMATCH_XSEED]
+                 [-n OUT_FILE_NAME] [-nr NON_RNA] [-o OUT_PATH]
+                 [-q OUT_FILE_TYPE] [-r REPLACEMENT] [-rna RNA_TYPE]
+                 [-s SEED_ERROR_SEQ] [-se SEED] [-st STD_SEQ] [-t [TOTAL_SEQ]]
+                 [-th THREAD] [-x XSEED_ERROR_SEQ]
 
 optional arguments:
   -h, --help            show this help message and exit
-  -i INPUT, --input INPUT
-                        Reference fasta file input. (default: None)
-  -t [TOTAL_SEQ], --total_seq [TOTAL_SEQ]
-                        Total number of sequence to be generated. (default:
-                        50000)
-  -st STD_SEQ, --std_seq STD_SEQ
-                        Fraction of stadnard sequence out of total generated
-                        sequence. (default: None)
-  -nr NON_RNA, --non_rna NON_RNA
-                        Fraction of Non RNA sequence out of total generated
-                        sequence. (default: None)
-  -s SEED_ERROR_SEQ, --seed_error_seq SEED_ERROR_SEQ
-                        Fraction of sequence having impurity in seed region
-                        out of total generated sequence. (default: None)
-  -x XSEED_ERROR_SEQ, --xseed_error_seq XSEED_ERROR_SEQ
-                        Fraction of sequence having impurity in xseed region
-                        (extra region outside seed region) out of total
-                        generated sequence. (default: None)
+  -a ADAPTOR, --adaptor ADAPTOR
+                        Adaptor Sequence. (default: TGGAATTCTCGGGTGCCAAGG)
   -b BOTH_SEED_XSEED_ERROR_SEQ, --both_seed_xseed_error_seq BOTH_SEED_XSEED_ERROR_SEQ
                         Fraction of sequence having impurity in both seed and
                         xseed region outo of total generated sequence.
@@ -117,34 +102,55 @@ optional arguments:
   -d MIN_DEPTH, --min_depth MIN_DEPTH
                         Minimum depth of sequence to be generated. (default:
                         5)
+  -dist EXPRESSION_DISTRIBUTION, --expression_distribution EXPRESSION_DISTRIBUTION
+                        Distribution type for expression values. (default:
+                        poisson)
   -e ENCODING_QUALITY, --encoding_quality ENCODING_QUALITY
                         Quality score encoding for fastq file (33/64 for
                         fastq, 0 for fasta). (default: 33)
-  -se SEED, --seed SEED
-                        Seed (random/fixed-prided by user). (default: None)
-  -o OUT_PATH, --out_path OUT_PATH
-                        Path of saving output (fastq/fasta) file. (default:
-                        None)
-  -n OUT_FILE_NAME, --out_file_name OUT_FILE_NAME
-                        Name of output sequence file (fastq/fasta). (default:
-                        None)
   -g GROUND_TRUTH_FILE, --ground_truth_file GROUND_TRUTH_FILE
                         Name of output ground truth file. (default: None)
   -gff GFF_FILE, --gff_file GFF_FILE
                         GFF file. (default: None)
+  -i INPUT, --input INPUT
+                        Reference fasta file input. (default: None)
+  -ms MISMATCH_SEED, --mismatch_seed MISMATCH_SEED
+                        Maximum number of mismatch in seed region (default: 2)
+  -mxs MISMATCH_XSEED, --mismatch_xseed MISMATCH_XSEED
+                        Maximum number of mismatch in xseed region (default:
+                        2)
+  -n OUT_FILE_NAME, --out_file_name OUT_FILE_NAME
+                        Name of output sequence file (fastq/fasta). (default:
+                        None)
+  -nr NON_RNA, --non_rna NON_RNA
+                        Fraction of Non RNA sequence out of total generated
+                        sequence. (default: None)
+  -o OUT_PATH, --out_path OUT_PATH
+                        Path of saving output (fastq/fasta) file. (default:
+                        None)
   -q OUT_FILE_TYPE, --out_file_type OUT_FILE_TYPE
                         Output file type. (default: fastq)
-  -dist EXPRESSION_DISTRIBUTION, --expression_distribution EXPRESSION_DISTRIBUTION
-                        Distribution type for expression values. (default:
-                        poisson)
-  -a ADAPTOR, --adaptor ADAPTOR
-                        Adaptor Sequence. (default: TGGAATTCTCGGGTGCCAAGG)
-  -th THREAD, --thread THREAD
-                        Number of Parallel thread. (default: 4)
   -r REPLACEMENT, --replacement REPLACEMENT
                         Sample RNAs with replacement (default: True)
   -rna RNA_TYPE, --rna_type RNA_TYPE
                         RNA type (miRNA/piRNA/...). (default: miRNA)
+  -s SEED_ERROR_SEQ, --seed_error_seq SEED_ERROR_SEQ
+                        Fraction of sequence having impurity in seed region
+                        out of total generated sequence. (default: None)
+  -se SEED, --seed SEED
+                        Seed (random/fixed-prided by user). (default: None)
+  -st STD_SEQ, --std_seq STD_SEQ
+                        Fraction of stadnard sequence out of total generated
+                        sequence. (default: None)
+  -t [TOTAL_SEQ], --total_seq [TOTAL_SEQ]
+                        Total number of sequence to be generated. (default:
+                        50000)
+  -th THREAD, --thread THREAD
+                        Number of Parallel thread. (default: 4)
+  -x XSEED_ERROR_SEQ, --xseed_error_seq XSEED_ERROR_SEQ
+                        Fraction of sequence having impurity in xseed region
+                        (extra region outside seed region) out of total
+                        generated sequence. (default: None)
 ```
 
 ### Example
@@ -200,7 +206,7 @@ zcat mirna_raw_data.fastq.gz pirna_raw_data.fastq.gz novel_mirna_raw_data.fastq.
 
 ## Reference
 
-Ruhela, Vivek et al., "miRSim: Seed-based Synthetic Sequence Simualtor"
+V. Ruhela, R. Gupta, S. K., G. Ahuja, and A. Gupta, “miRSim: Seed-basedSynthetic Small Non-coding RNA Sequence Simulator,”Co-Submitted toBioinformatics, pp. 1–3, 2021.
 
 ## Authors
 

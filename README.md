@@ -1,5 +1,17 @@
 # miRSim
 
+<table>
+<tr>
+  <td>Publications</td>
+  <td>
+    <a href="http://doi.org/10.5281/zenodo.4560585">
+    <img src="https://zenodo.org/badge/284678873.svg" alt="zenodo reference">
+    </a>
+  </td>
+</tr>
+</table>
+
+
 ![miRSim Synthetic Sequence Simulator](synthetic_reads.png)
 
 This aim of this tool is to generate the synthetic RNA-Seq sequences by mutating the seed and xseed region (extra sequence after removing seed) by following poisson or gamma error distribution. In addition to the synthetic sequences, this tool also generate the ground truth. This tool can be used to evalute the ability of the tool/pipeline to correctly identify the RNA sequences.
@@ -30,13 +42,6 @@ You can download this tool by cloning the github repository and use directly by 
 git clone https://github.com/vivekruhela/miRSim.git
 cd miRSim
 ```
-
-(For reviewers) The git clone command will ask for credentials. Please enter the following credentials to clone the repository.
-```
-username: mirpipedockertest
-password: iiitdelhi123
-```
-
 ## Databases
 #### Databases Required
 [miRBase](http://www.mirbase.org/) and [piRNAdb](https://www.pirnadb.org/)

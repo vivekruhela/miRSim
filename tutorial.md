@@ -14,7 +14,7 @@ If you are not seeing this message, please check whether you have installed all 
 After successfully installing all the dependencies and printing the help command, you can run the tool with minimum required parameters with the help of the following command:
 
 ```
-python miRSim.py -i Sample_data/mature_high_conf_miRNA_hsa.fa -gff Sample_data/hsa_miRNA_high_conf.gff3 -st 50 -nr 50
+python miRSim.py -i refs/mature_high_conf_hsa.fa -gff refs/hsa_high_conf.gff3 -st 50 -nr 50
 ```
 
 By giving the above command, you should see the following response:
@@ -34,7 +34,7 @@ You can give input as either "non_rna fraction" or all the three namely "seed, x
 If you don't want to generate data according to the default parameter values, then you can give your own parameters. E.g.
 
 ```
-python miRSim.py -i Sample_data/mature_high_conf_miRNA_hsa.fa -gff Sample_data/hsa_miRNA_high_conf.gff3 -t 100000 -st 50 -s 20 -x 15 -b 15 -d 10 -e 0 -se 1001 -q fasta -dist gamma -a AAAGGGTTGGAAGCGGTGA -th 12
+python miRSim.py -i refs/mature_high_conf_hsa.fa -gff refs/hsa_high_conf.gff3 -t 100000 -st 50 -s 20 -x 15 -b 15 -d 10 -e 0 -se 1001 -q fasta -dist gamma -a AAAGGGTTGGAAGCGGTGA -th 12
 ```
 After giving the above commands you should get the following response:
 

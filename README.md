@@ -24,7 +24,7 @@ This tool has been developed in Python (version 3.6.9). The following libraries 
 
 ```
 -----------------------------------------------------
-Packages                        Installation
+Packages                        Version
 -----------------------------------------------------
 pandas                        1.0.1
 numpy                         1.18.1

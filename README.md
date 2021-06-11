@@ -213,7 +213,7 @@ zcat mirna_raw_data.fastq.gz pirna_raw_data.fastq.gz novel_mirna_raw_data.fastq.
 
 ## Reference
 
-V. Ruhela, R. Gupta, S. K., G. Ahuja, and A. Gupta, “miRSim: Seed-basedSynthetic Small Non-coding RNA Sequence Simulator,”Co-Submitted toBioinformatics, pp. 1–3, 2021.
+ Ruhela, V., Gupta, R., Krishnamachari, S., Ahuja, G., Gupta, A.:vivekruhela/miRSim v1.0.0 (Version v1.0.0). Zenodo
 
 ## Authors
 

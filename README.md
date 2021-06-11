@@ -26,9 +26,10 @@ This tool has been developed in Python (version 3.6.9). The following libraries 
 -----------------------------------------------------
 Packages                        Installation
 -----------------------------------------------------
-pandas                        pip install pandas
-numpy                         pip install numpy
-threading                     pip install threaded
+pandas                        1.0.1
+numpy                         1.18.1
+threading                     4.1.0
+scipy                         1.4.1
 -----------------------------------------------------
 ```
 Rest of the requires packages such as `random,os,sys,gzip,time` are already included into python standard library. This tool has been tested on Linux (Ubuntu) 16.04 and 18.04 version.
@@ -41,6 +42,7 @@ You can download this tool by cloning the github repository and use directly by 
 ```
 git clone https://github.com/vivekruhela/miRSim.git
 cd miRSim
+pip install -r requirements.txt
 ```
 ## Databases
 #### Databases Required

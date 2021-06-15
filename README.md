@@ -119,7 +119,7 @@ optional arguments:
                         Name of output ground truth file. (default: None)
   -gff GFF_FILE, --gff_file GFF_FILE
                         GFF file. (default: None)
-  -i INPUT, --input INPUT
+  -i INPUT, --input INPUT fasta file (default: None)
                         Reference fasta file input. (default: None)
   -ms MISMATCH_SEED, --mismatch_seed MISMATCH_SEED
                         Maximum number of mismatch in seed region (default: 2)
@@ -159,6 +159,11 @@ optional arguments:
                         (extra region outside seed region) out of total
                         generated sequence. (default: None)
 ```
+
+## Steps to generate Synthetic data
+
+### Using pre-exieting databases such as miRBase or piRNAdb
+You can download the sequence fasta file (.fasta) and their genomic location (.gff) from the miRBase/piRNAdb database to generate the synthetic data. (Example shown below)
 
 ### Example
 (A) Basic Example: If you want to prepare the synthetic data having total number of sequences = 50000 and contains standard miRNA (let's say 50% i.e. 25000 sequences) and non-miRNAs (let's say 50% i.e. 25000 sequences)
@@ -210,6 +215,11 @@ After generating synthetic data for each individual RNA, merge these fastq files
 ```
 zcat mirna_raw_data.fastq.gz pirna_raw_data.fastq.gz novel_mirna_raw_data.fastq.gz | gzip > synthetic_raw_data.fastq.gz
 ```
+
+### Using manually curated database
+1. You can prepare the sequence fasta file that contains all the reference sequences in the standard fasta format.
+2. Also, prepare gff file that contains the genomic locations of the sequence mentioned in the fasta file in the standard GFF3 format.
+3. After preparing both fasta and gff reference files, you can use them with `-i` and `-gff` argument for synthetic data generation.
 
 ## Reference
 

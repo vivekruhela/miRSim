@@ -193,22 +193,19 @@ Total Number of sequence = 500000
 ```
 
 In order to generate such data you need to call miRSim module separately for each RNA type using following commands `(assuming minimum depth=default, file_type=fastq, encoding_quality=33, adaptor=default)`:
+**For miRNA synthetic data**
 
 ```
-For miRNA synthetic data
-
 python miRSim.py -i refs/mature_high_conf_hsa.fa -n mirna_raw_data.fastq.gz -g mirna_ground_truth.csv -gff refs/hsa_high_conf.gff3 -t 500000 -st 20 -s 10 -x 10 -b 5 -se 1001 -th 6 -rna miRNA
 ```
+**For piRNA synthetic data**
 
 ```
-For piRNA synthetic data
-
 python miRSim.py -i refs/piRNAdb.hsa.v1_7_5.fa -n pirna_raw_data.fastq.gz -g pirna_ground_truth.csv -gff refs/pirnadb.hg38.gff3 -t 500000 -st 10 -s 10 -x 5 -b 5 -se 1001 -th 6 -rna piRNA
 ```
+**For novel miRNA synthetic data**
 
 ```
-For novel miRNA synthetic data
-
 python miRSim.py -i refs/final_novel_seq_filtered.fa -n novel_mirna_raw_data.fastq.gz -g novel_mirna_ground_truth.csv -gff refs/novel_gff.gff3 -t 500000 -st 10 -s 10 -x 3 -b 2 -se 1001 -th 6 -rna novelRNA
 ```
 After generating synthetic data for each individual RNA, merge these fastq files and their ground truth csv. e.g.

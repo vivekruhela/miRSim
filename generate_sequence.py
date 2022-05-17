@@ -88,7 +88,7 @@ def generate_sequence(fasta_seq, gff_df, rna_dict, no_mir_chr, n_seq_per_chr, de
                             fasta_seq.append('>' + mir + '_no_alterations')
                         if seq_error == 'Seed_region':
                             fasta_seq.append('>' + mir + '_seed_alterations')
-                        if seq_error == 'Seed_region':
+                        if seq_error == 'Outside_Seed_region':
                             fasta_seq.append('>' + mir + '_xseed_alterations')
                         if seq_error == 'Both_region':
                             fasta_seq.append('>' + mir + '_both_seed_&_xseed_alterations')
